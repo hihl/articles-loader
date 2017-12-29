@@ -73,11 +73,13 @@ function articlesLoader() {
   });
 
   function done() {
+    const mdsArray = R.sortBy(R.compose((date) => new Date(date).getTime(), R.prop('date')))(R.values(mds)).reverse();
     callback(
       null,
       'module.exports = {' +
       `\n  dates: ${JSON.stringify(markdown)},` +
       `\n  mds: ${JSON.stringify(mds)},` +
+      `\n  mdsArray: ${JSON.stringify(mdsArray)},` +
       `\n  categories: ${JSON.stringify(categories)},` +
       `\n  tags: ${JSON.stringify(tags)}` +
       '\n};'

@@ -7,7 +7,7 @@
   "author": "hihl <348267823@qq.com>",
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf lib",
+    "clean": "rm -rf lib",
     "build": "npm run clean && echo Using Babel && babel --version && babel src --out-dir lib -s",
     "pub": "npm run build && npm publish"
   },

@@ -34,15 +34,19 @@ function articlesLoader() {
           content,
           callback(err, result) {
             const parsedMarkdown = JSON.parse(result);
+            const category = parsedMarkdown.meta.category;
+
             mds[filePath] = {
               title: parsedMarkdown.meta.title,
               summary: parsedMarkdown.meta.summary,
-              content: parsedMarkdown.content
+              content: parsedMarkdown.content,
+              category,
+              tags: parsedMarkdown.meta.tags,
+              date: filePath.split('/').slice(-4, -1).join('-')
             };
-            const category = parsedMarkdown.meta.category;
 
             concat(categories)(category)(filePath);
-            R.forEach(R.curry(concat(tags)(R.__)(filePath)), parsedMarkdown.meta.tags);
+            R.forEach(key => concat(tags)(key)(filePath), parsedMarkdown.meta.tags);
 
             resolve();
           }
@@ -68,7 +72,15 @@ function articlesLoader() {
   });
 
   function done() {
-    console.log(markdown, categories, tags, mds);
+    callback(
+      null,
+      'module.exports = {' +
+      `\n  dates: ${JSON.stringify(markdown)},` +
+      `\n  mds: ${JSON.stringify(mds)},` +
+      `\n  categories: ${JSON.stringify(categories)},` +
+      `\n  tags: ${JSON.stringify(tags)}` +
+      '\n};'
+    );
   }
 
   Promise.all(pickedPromises).then(done);

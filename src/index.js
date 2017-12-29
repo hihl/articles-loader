@@ -37,6 +37,7 @@ function articlesLoader() {
             const category = parsedMarkdown.meta.category;
 
             mds[filePath] = {
+              key: filePath,
               title: parsedMarkdown.meta.title,
               summary: parsedMarkdown.meta.summary,
               content: parsedMarkdown.content,

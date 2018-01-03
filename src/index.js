@@ -35,9 +35,10 @@ function articlesLoader() {
           callback(err, result) {
             const parsedMarkdown = JSON.parse(result);
             const category = parsedMarkdown.meta.category;
+            const fileKey = '/' + filePath.split('/').slice(-4).join('/');
 
-            mds[filePath] = {
-              key: filePath,
+            mds[fileKey] = {
+              key: fileKey,
               title: parsedMarkdown.meta.title,
               summary: parsedMarkdown.meta.summary,
               content: parsedMarkdown.content,
@@ -46,8 +47,8 @@ function articlesLoader() {
               date: filePath.split('/').slice(-4, -1).join('-')
             };
 
-            concat(categories)(category)(filePath);
-            R.forEach(key => concat(tags)(key)(filePath), parsedMarkdown.meta.tags);
+            concat(categories)(category)(fileKey);
+            R.forEach(key => concat(tags)(key)(fileKey), parsedMarkdown.meta.tags);
 
             resolve();
           }

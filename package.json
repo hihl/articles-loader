@@ -1,6 +1,6 @@
 {
   "name": "articles-loader",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "博客文章markdown文件的webpack loader，用于收集文章",
   "main": "lib/index.js",
   "repository": "https://github.com/hihl/articles-loader.git",

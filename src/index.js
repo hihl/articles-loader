@@ -47,8 +47,9 @@ function articlesLoader() {
               date: filePath.split('/').slice(-4, -1).join('-')
             };
 
-            concat(categories)(category)(fileKey);
-            R.forEach(key => concat(tags)(key)(fileKey), parsedMarkdown.meta.tags);
+            const value = { key: fileKey, title: parsedMarkdown.meta.title, summary: parsedMarkdown.meta.summary};
+            concat(categories)(category)(value);
+            R.forEach(key => concat(tags)(key)(value), parsedMarkdown.meta.tags);
 
             resolve();
           }

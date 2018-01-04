@@ -10,7 +10,9 @@ const scheduler = require('./utils/scheduler');
 
 const defaultRoot = path.resolve(process.cwd(), 'articles');
 
-const concat = obj => key => value => obj[key] = R.union(obj[key], [value]);
+const concat = obj => key => value => obj[key] = R.sortBy(
+  R.compose((date) => new Date(date).getTime(), R.prop('date'))
+)(R.union(obj[key], [value])).reverse();
 
 function articlesLoader() {
   if (this.cacheable) {
@@ -36,18 +38,20 @@ function articlesLoader() {
             const parsedMarkdown = JSON.parse(result);
             const category = parsedMarkdown.meta.category;
             const fileKey = '/' + filePath.split('/').slice(-4).join('/');
+            const date = filePath.split('/').slice(-4, -1).join('-');
+            const { title, summary } = parsedMarkdown.meta;
 
             mds[fileKey] = {
               key: fileKey,
-              title: parsedMarkdown.meta.title,
-              summary: parsedMarkdown.meta.summary,
+              title,
+              summary,
               content: parsedMarkdown.content,
               category,
               tags: parsedMarkdown.meta.tags,
-              date: filePath.split('/').slice(-4, -1).join('-')
+              date
             };
 
-            const value = { key: fileKey, title: parsedMarkdown.meta.title, summary: parsedMarkdown.meta.summary};
+            const value = { key: fileKey, title, summary, date};
             concat(categories)(category)(value);
             R.forEach(key => concat(tags)(key)(value), parsedMarkdown.meta.tags);
 

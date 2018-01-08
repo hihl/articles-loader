@@ -1,6 +1,3 @@
-/**
- * Created by Zhengfeng.Yao on 2017/12/29.
- */
 const YFM = require('yaml-front-matter');
 
 module.exports = function MT(markdown) {

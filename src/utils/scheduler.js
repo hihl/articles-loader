@@ -1,6 +1,3 @@
-/**
- * Created by Zhengfeng.Yao on 2017/12/29.
- */
 const os = require('os');
 const path = require('path');
 const childProcess = require('child_process');

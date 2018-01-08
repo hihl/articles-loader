@@ -1,6 +1,3 @@
-/**
- * Created by Zhengfeng.Yao on 2017/12/28.
- */
 const fs = require('fs');
 const path = require('path');
 const R = require('ramda');

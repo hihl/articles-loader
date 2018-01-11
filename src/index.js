@@ -26,6 +26,7 @@ function articlesLoader() {
   const pickedPromises = [];
 
   const markdown = sourceHandler.traverse(root, filePath => {
+    this.addDependency(filePath);
     const content = fs.readFileSync(filePath).toString();
       pickedPromises.push(new Promise(resolve => {
         scheduler.queue({
